@@ -19,6 +19,7 @@ export default function AddictionForm() {
   const [occupation, setOccupation] = useState("");
   const [location, setLocation] = useState("");
   const [selectedAddictions, setSelectedAddictions] = useState<string[]>([]);
+  const [email, setEmail] = useState("");
   const [intake, setIntake] = useState<{ [key: string]: string }>({});
   const [sleepHours, setSleepHours] = useState("");
   const [exerciseFrequency, setExerciseFrequency] = useState("");
@@ -27,7 +28,18 @@ export default function AddictionForm() {
     "How can I assist you?",
   ]);
   const [chatInput, setChatInput] = useState("");
+  const [emailError, setEmailError] = useState("");
 
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+
+    if (!value.endsWith("@gmail.com")) {
+      setEmailError("Email must end with @gmail.com");
+    } else {
+      setEmailError(""); // Clear error if correct
+    }
+  };
   const handleCheckboxChange = (addiction: string) => {
     setSelectedAddictions((prev) =>
       prev.includes(addiction)
@@ -55,6 +67,7 @@ export default function AddictionForm() {
       name,
       age,
       gender,
+      email,
       occupation,
       location,
       addictions: selectedAddictions.map((addiction) => ({
@@ -141,6 +154,19 @@ export default function AddictionForm() {
                     <option value="Other">Other</option>
                   </select>
                 </div>
+              </div>
+
+              <div>
+                <label className=" text-lg text-[var(--special)]">Email</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  required
+                  className="w-full mt-2 p-3 border rounded-md text-[var(--muted-foreground)]"
+                  placeholder="Enter your email (must be @gmail.com)"
+                />
+                {emailError && <p className="text-sm ">{emailError}</p>}
               </div>
 
               <div>
