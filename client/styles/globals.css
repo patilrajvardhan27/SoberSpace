@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 📝 Global Font */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ✅ Custom Utilities */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* ✅ Theme Variables for Light & Dark Mode */
+@layer base {
+  :root {
+    --radius: 1.25rem;
+
+    /* 🎨 Background & Foreground */
+    --background: #000000; /* Black */
+    --foreground: #ffffff; /* White */
+
+    /* 📌 Cards & Popovers */
+    --card: #000000; /* Black */
+    --card-foreground: #ffffff; /* White */
+    --popover: #000000; /* Black */
+    --popover-foreground: #ffffff; /* White */
+
+    /* 🌟 Primary & Secondary Colors */
+    --primary: #000000; /* Yellow-500 */
+    --primary-foreground: #000000; /* Black */
+    --secondary: #eab308; /* Yellow-500 */
+    --secondary-foreground: #000000; /* Black */
+
+    /* 🎭 Muted, Accent & Special Colors */
+    --muted: #eab308; /* Yellow-500 */
+    --muted-foreground: #000000; /* Black */
+    --accent: #eab308; /* Yellow-500 */
+    --accent-foreground: #000000; /* Black */
+    --special: #facc15; /* Yellow-400 */
+    --special-foreground: #000000; /* Black */
+
+    /* ✅ Status Colors */
+    --success: #eab308; /* Yellow-500 */
+    --success-foreground: #000000; /* Black */
+    --destructive: #ff0004; /* Red */
+    --destructive-foreground: #ffffff; /* White */
+
+    /* 📌 Borders, Inputs & Rings */
+    --border: #eab308; /* Yellow-500 */
+    --input: #000000; /* Black */
+    --ring: #eab308; /* Yellow-500 */
+
+    /* 📊 Chart Colors */
+    --chart-1: #facc15; /* Yellow-400 */
+    --chart-2: #eab308; /* Yellow-500 */
+    --chart-3: #d97706; /* Yellow-600 */
+    --chart-4: #92400e; /* Yellow-700 */
+    --chart-5: #78350f; /* Yellow-800 */
+
+    /* 📌 Sidebar Theme */
+    --sidebar-background: #000000; /* Black */
+    --sidebar-foreground: #ffffff; /* White */
+    --sidebar-primary: #eab308; /* Yellow-500 */
+    --sidebar-primary-foreground: #000000; /* Black */
+    --sidebar-accent: #facc15; /* Yellow-400 */
+    --sidebar-accent-foreground: #000000; /* Black */
+    --sidebar-border: #eab308; /* Yellow-500 */
+    --sidebar-ring: #facc15; /* Yellow-400 */
+  }
+
+}
+
+/* ✅ Apply Global Styles */
+
+
+/* 🔥 Custom Scrollbar (Tailwind-Only) */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) var(--muted);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: var(--muted);
+  }
+}
+
+/* ✨ Cursor Animation */
+@keyframes blinkCursor {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: currentColor;
+  margin-left: 4px;
+  animation: blinkCursor 1s infinite;
+  border-radius: 1px;
+}
