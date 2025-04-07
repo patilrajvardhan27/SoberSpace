@@ -14,10 +14,4 @@ A Next.js, TailwindCSS, FastAPI, and LLM-powered platform for users to report su
 
 ## 🔧 Setup Instructions
 
-### 1️⃣ Frontend (Next.js + TailwindCSS)
-
-#### **Step 1: Clone and Install**
-```sh
-git clone https://github.com/your-repo/substance-report.git
-cd client
-npm install
+### 1️⃣ DM me
