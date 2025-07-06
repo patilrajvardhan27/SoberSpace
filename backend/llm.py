@@ -1,10 +1,10 @@
 import os
-from openai import OpenAI
+import requests
 from dotenv import load_dotenv
 from models import UserData
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+PPLX_API_KEY = os.getenv("PPLX_API_KEY")
 
 def get_llm_response(user_data: UserData) -> str:
     prompt = f"""
@@ -82,13 +82,33 @@ def get_llm_response(user_data: UserData) -> str:
     Exercise Frequency: {user_data.lifestyle.exerciseFrequency}
     """
 
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
+    print("[Perplexity] Prompt sent:")
+    print(prompt)
+
+    url = "https://api.perplexity.ai/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {PPLX_API_KEY}",
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
+    data = {
+        "model": "sonar-reasoning",
+        "messages": [
             {"role": "system", "content": "You are a health and addiction analysis assistant."},
             {"role": "user", "content": prompt}
         ],
-        temperature=0.7
-    )
-
-    return response.choices[0].message.content
+        "temperature": 0.7
+    }
+    print("[Perplexity] Sending request to API...")
+    response = requests.post(url, headers=headers, json=data)
+    print(f"[Perplexity] Status code: {response.status_code}")
+    print(f"[Perplexity] Raw response: {response.text}")
+    response.raise_for_status()
+    result = response.json()
+    try:
+        content = result["choices"][0]["message"]["content"]
+        print("[Perplexity] AI content:", content)
+        return content
+    except Exception as e:
+        print("Perplexity API response error:", result)
+        return "[AI Error] No valid response from Perplexity API. Please try again later."

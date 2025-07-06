@@ -1,3 +1,4 @@
+// index.tsx
 import React, { JSX, useState } from "react";
 import { formatSubmittedData } from "./form_submit_data";
 import SoberspaceForm from "./submit_form";
@@ -15,47 +16,11 @@ const addictions = [
 ];
 
 export default function AddictionForm() {
-  const [email, setEmail] = useState("");
   const [chatVisible, setChatVisible] = useState(false);
   const [chatMessages, setChatMessages] = useState<
     { type: "user" | "ai"; content: string }[]
   >([]);
 
-  const [emailError, setEmailError] = useState("");
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setEmail(value);
-
-    if (!value.endsWith("@gmail.com")) {
-      setEmailError("Email must end with @gmail.com");
-    } else {
-      setEmailError("");
-    }
-  };
-      const formatLLMResponse = (text: string): JSX.Element[] => {
-        const lines = text.split(/\d+\.\s/).filter(Boolean);
-    
-        return lines.map((block, idx) => {
-          const [titleLine, ...rest] = block.split(" - ");
-          const content = rest.join(" - ").split(" - ");
-    
-          return (
-            <div key={idx} className="mb-4">
-              <h3 className="font-semibold text-purple-700 mb-1">
-                {idx + 1}. {titleLine.trim()}
-              </h3>
-              <ul className="list-disc list-inside space-y-1 text-gray-700 text-sm">
-                {content.map((point, i) => (
-                  <li key={i}>{point.trim()}</li>
-                ))}
-              </ul>
-            </div>
-          );
-        });
-      };
-  
-      
   const isJSONString = (str: string) => {
     try {
       const parsed = JSON.parse(str);
@@ -64,7 +29,31 @@ export default function AddictionForm() {
       return false;
     }
   };
- 
+
+  const formatLLMResponse = (text: string): JSX.Element[] => {
+    if (!text) {
+      return [<div key="empty" className="text-red-500">No response from AI.</div>];
+    }
+    const lines = text.split(/\d+\.\s/).filter(Boolean);
+
+    return lines.map((block, idx) => {
+      const [titleLine, ...rest] = block.split(" - ");
+      const content = rest.join(" - ").split(" - ");
+
+      return (
+        <div key={idx} className="mb-4">
+          <h3 className="font-semibold text-purple-700 mb-1">
+            {idx + 1}. {titleLine.trim()}
+          </h3>
+          <ul className="list-disc list-inside space-y-1 text-gray-700 text-sm">
+            {content.map((point, i) => (
+              <li key={i}>{point.trim()}</li>
+            ))}
+          </ul>
+        </div>
+      );
+    });
+  };
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-[url('/background.png')] bg-cover bg-center px-6">
@@ -75,7 +64,11 @@ export default function AddictionForm() {
             <h2 className="text-3xl font-bold text-[var(--special)] text-center mb-6">
               Addiction Report Form
             </h2>
-        <SoberspaceForm/>
+            <SoberspaceForm
+              setChatVisible={setChatVisible}
+              chatMessages={chatMessages}
+              setChatMessages={setChatMessages}
+            />
           </div>
         ) : (
           <div className="bg-[var(--background)] text-[var(--foreground)] p-8 rounded-2xl shadow-xl w-full max-w-2xl border border-[var(--border)]">

@@ -1,4 +1,4 @@
-// components/SoberspaceForm.tsx
+// components/submit_form.tsx
 import React, { useState } from "react";
 
 export const addictions = [
@@ -13,7 +13,19 @@ export const addictions = [
   "Inhalants (times per week)",
 ];
 
-const SoberspaceForm = () => {
+interface SoberspaceFormProps {
+  setChatVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setChatMessages: React.Dispatch<
+    React.SetStateAction<{ type: "user" | "ai"; content: string }[]>
+  >;
+  chatMessages: { type: "user" | "ai"; content: string }[];
+}
+
+const SoberspaceForm: React.FC<SoberspaceFormProps> = ({
+  setChatVisible,
+  setChatMessages,
+  chatMessages,
+}) => {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
@@ -24,10 +36,6 @@ const SoberspaceForm = () => {
   const [intake, setIntake] = useState<{ [key: string]: string }>({});
   const [sleepHours, setSleepHours] = useState("");
   const [exerciseFrequency, setExerciseFrequency] = useState("");
-  const [chatVisible, setChatVisible] = useState(false);
-  const [chatMessages, setChatMessages] = useState<
-    { type: "user" | "ai"; content: string }[]
-  >([]);
   const [emailError, setEmailError] = useState("");
 
   const handleCheckboxChange = (addiction: string) => {
